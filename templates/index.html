@@ -7,6 +7,7 @@
         .recommendation-card { transition: transform 0.2s; }
         .recommendation-card:hover { transform: translateY(-5px); }
         .product-list { max-height: 300px; overflow-y: auto; }
+        .discovery-badge { background-color: #6f42c1 !important; }
     </style>
 </head>
 <body class="container mt-5">
@@ -35,7 +36,15 @@
 
             {% if recommendations %}
             <div class="mt-4">
-                <h3 class="mb-3">✨ Recommended Products</h3>
+                <h3 class="mb-3">
+                    ✨ Recommended Products 
+                    {% if user_id %}
+                    <small class="text-muted">(for User {{ user_id }})</small>
+                    {% endif %}
+                </h3>
+                <p class="text-muted small">
+                    <i>Note: Recommendations include personalized picks and discovery items that match your interests.</i>
+                </p>
                 <div class="row">
                     {% for item_id, score in recommendations %}
                     <div class="col-md-4 mb-3">
@@ -43,8 +52,8 @@
                             <div class="card-body">
                                 <h5>{{ products[item_id] }}</h5>
                                 <div class="mt-2">
-                                    <span class="badge bg-success">
-                                        Confidence: {{ "%.2f"|format(score) }}
+                                    <span class="badge {% if score < 0.76 %}discovery-badge{% else %}bg-success{% endif %}">
+                                        {% if score < 0.76 %}Discovery{% else %}Recommended{% endif %}: {{ "%.2f"|format(score) }}
                                     </span>
                                 </div>
                             </div>
