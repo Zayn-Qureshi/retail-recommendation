@@ -8,13 +8,15 @@
         .recommendation-card:hover { transform: translateY(-5px); }
         .product-list { max-height: 300px; overflow-y: auto; }
         .discovery-badge { background-color: #6f42c1 !important; }
+        .ml-badge { background-color: #0d6efd !important; }
+        .rule-badge { background-color: #198754 !important; }
     </style>
 </head>
 <body class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-body">
             <h1 class="text-center mb-4">🛍️ Smart Retail Recommender</h1>
-
+            
             {% if error %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -46,14 +48,17 @@
                     <i>Note: Recommendations include personalized picks and discovery items that match your interests.</i>
                 </p>
                 <div class="row">
-                    {% for item_id, score in recommendations %}
+                    {% for item_id, score, source in recommendations %}
                     <div class="col-md-4 mb-3">
                         <div class="card recommendation-card h-100">
                             <div class="card-body">
                                 <h5>{{ products[item_id] }}</h5>
                                 <div class="mt-2">
-                                    <span class="badge {% if score < 0.76 %}discovery-badge{% else %}bg-success{% endif %}">
-                                        {% if score < 0.76 %}Discovery{% else %}Recommended{% endif %}: {{ "%.2f"|format(score) }}
+                                    <span class="badge 
+                                        {% if source == 'ML' %}ml-badge
+                                        {% elif source == 'Rule' %}rule-badge
+                                        {% else %}discovery-badge{% endif %}">
+                                        {{ source }}: {{ "%.2f"|format(score) }}
                                     </span>
                                 </div>
                             </div>
