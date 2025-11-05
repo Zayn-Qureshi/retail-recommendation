@@ -196,4 +196,4 @@ def recommend():
     return render_template('index.html', products=products, model_loaded=model_loaded)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

@@ -28,6 +28,8 @@ instance/
 venv/
 ENV/
 env/
+.venv
+.pythonlibs/
 
 # IDE specific files
 .idea/
@@ -37,4 +39,8 @@ env/
 
 # OS specific files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Logs
+*.log
+/tmp/ 
