@@ -1,94 +1,296 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Retail Recommender</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Retail Recommender</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        .recommendation-card { transition: transform 0.2s; }
-        .recommendation-card:hover { transform: translateY(-5px); }
-        .product-list { max-height: 300px; overflow-y: auto; }
-        .discovery-badge { background-color: #6f42c1 !important; }
-        .ml-badge { background-color: #0d6efd !important; }
-        .rule-badge { background-color: #198754 !important; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .search-section {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .input-group input {
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        .recommendation-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .section-title {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .recommendation-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        .recommendation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        .product-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .badge-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .recommendation-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .discovery-badge { 
+            background: linear-gradient(135deg, #6f42c1 0%, #9333ea 100%);
+            color: white;
+        }
+        .ml-badge { 
+            background: linear-gradient(135deg, #0d6efd 0%, #0ea5e9 100%);
+            color: white;
+        }
+        .rule-badge { 
+            background: linear-gradient(135deg, #198754 0%, #10b981 100%);
+            color: white;
+        }
+        .confidence-score {
+            background: #f7fafc;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .product-table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .product-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+        .product-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .product-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .product-list::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .table thead th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+        .table tbody tr {
+            transition: background 0.2s;
+        }
+        .table tbody tr:hover {
+            background: #f7fafc;
+        }
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .info-text {
+            background: #e0e7ff;
+            color: #4c51bf;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
-<body class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
-            <h1 class="text-center mb-4">🛍️ Smart Retail Recommender</h1>
+<body>
+    <div class="container main-container">
+        <div class="header-card">
+            <h1 class="text-center">🛍️ Smart Retail Recommender</h1>
+            <p class="subtitle text-center">Get personalized product recommendations powered by machine learning</p>
             
             {% if error %}
             <div class="alert alert-danger" role="alert">
-                {{ error }}
+                <strong>⚠️ Error:</strong> {{ error }}
             </div>
             {% endif %}
 
-            <form method="post">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">👤 User ID</span>
-                    <input type="number" name="user_id"
-                           class="form-control"
-                           placeholder="Enter User ID (1-4)"
-                           min="1" max="4" required>
-                    <button type="submit" class="btn btn-primary">
-                        Get Recommendations
-                    </button>
-                </div>
-            </form>
+            <div class="search-section">
+                <form method="post">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <span style="font-size: 1.5rem;">👤</span>
+                        </span>
+                        <input type="number" name="user_id"
+                               class="form-control border-start-0"
+                               placeholder="Enter User ID (1-4)"
+                               min="1" max="4" required>
+                        <button type="submit" class="btn btn-primary">
+                            Get Recommendations
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            {% if recommendations %}
-            <div class="mt-4">
-                <h3 class="mb-3">
-                    ✨ Recommended Products 
-                    {% if user_id %}
-                    <small class="text-muted">(for User {{ user_id }})</small>
-                    {% endif %}
-                </h3>
-                <p class="text-muted small">
-                    <i>Note: Recommendations include personalized picks and discovery items that match your interests.</i>
-                </p>
-                <div class="row">
-                    {% for item_id, score, source in recommendations %}
-                    <div class="col-md-4 mb-3">
-                        <div class="card recommendation-card h-100">
-                            <div class="card-body">
-                                <h5>{{ products[item_id] }}</h5>
-                                <div class="mt-2">
-                                    <span class="badge 
-                                        {% if source == 'ML' %}ml-badge
-                                        {% elif source == 'Rule' %}rule-badge
-                                        {% else %}discovery-badge{% endif %}">
-                                        {{ source }}: {{ "%.2f"|format(score) }}
-                                    </span>
-                                </div>
-                            </div>
+        {% if recommendations %}
+        <div class="recommendation-section">
+            <h2 class="section-title">
+                ✨ Your Personalized Recommendations
+                {% if user_id %}
+                <small class="text-muted" style="font-size: 1.2rem;">(User {{ user_id }})</small>
+                {% endif %}
+            </h2>
+            <div class="info-text">
+                💡 These recommendations are generated using machine learning and rule-based algorithms. 
+                {% if model_loaded %}
+                <strong>ML Model Active:</strong> Our AI is analyzing product features to find the best matches for you!
+                {% endif %}
+            </div>
+            <div class="row g-4">
+                {% for item_id, score, source in recommendations %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="recommendation-card">
+                        <h5 class="product-name">{{ products[item_id] }}</h5>
+                        <div class="badge-container">
+                            <span class="recommendation-badge 
+                                {% if source == 'ML' %}ml-badge
+                                {% elif source == 'Rule' %}rule-badge
+                                {% else %}discovery-badge{% endif %}">
+                                {% if source == 'ML' %}🤖 ML
+                                {% elif source == 'Rule' %}📊 Rule
+                                {% else %}🔍 Discovery{% endif %}
+                            </span>
+                            <span class="confidence-score">
+                                {{ (score * 100)|int }}% Match
+                            </span>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            <div class="mt-4">
-                <h3 class="mb-3">📋 Available Products</h3>
-                <div class="product-list">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Product</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item_id, product_name in products.items() %}
-                            <tr>
-                                <td>{{ item_id }}</td>
-                                <td>{{ product_name }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+        <div class="product-table-container">
+            <h2 class="section-title">📋 Product Catalog</h2>
+            <p class="text-muted mb-4">Browse our complete selection of {{ products|length }} products</p>
+            <div class="product-list">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">ID</th>
+                            <th>Product Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item_id, product_name in products.items() %}
+                        <tr>
+                            <td><strong>#{{ item_id }}</strong></td>
+                            <td>{{ product_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
