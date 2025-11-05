@@ -61,9 +61,15 @@ A Flask-based web application providing personalized product recommendations usi
 None specified yet.
 
 ## Recent Changes
-- November 5, 2025: Initial import and Replit environment setup
-  - Configured Flask to bind to 0.0.0.0:5000 for Replit proxy
-  - Generated ML model files (recommender_model.pkl, user_item_matrix.pkl)
-  - Set up workflow for automatic server start
-  - Added .gitignore for Python projects
-  - Updated requirements.txt with all dependencies
+- November 5, 2025: Major UI/UX improvements and Replit setup
+  - **Design Overhaul**: Implemented modern gradient design with purple theme
+  - **Enhanced Layout**: Added responsive cards, better spacing, and visual hierarchy
+  - **Improved Badges**: Color-coded recommendation types with confidence percentages
+  - **Better Typography**: Integrated Inter font and improved readability
+  - **Deployment Ready**: Added Gunicorn for production deployment
+  - Initial Replit environment setup:
+    - Configured Flask to bind to 0.0.0.0:5000 for Replit proxy
+    - Generated ML model files (recommender_model.pkl, user_item_matrix.pkl)
+    - Set up workflow for automatic server start
+    - Added .gitignore for Python projects
+    - Updated requirements.txt with all dependencies
