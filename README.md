@@ -11,9 +11,7 @@ A Flask web application that provides personalized product recommendations using
 - Confidence scores for recommendations
 - Visual distinction between recommendation types
 
-## Screenshots
 
-![Retail Recommender Interface](https://i.imgur.com/example.png) *(You can add your own screenshot here)*
 
 ## Installation
 
