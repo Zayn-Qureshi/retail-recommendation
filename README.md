@@ -88,7 +88,7 @@ The recommendation system uses a k-nearest neighbors model from scikit-learn:
 
 ## Author
 
-[Your Name](https://github.com/Zayn-Qureshi)
+[Muhammad Zain](https://github.com/Zayn-Qureshi)
 
 ## License
 
